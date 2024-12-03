@@ -67,7 +67,7 @@ export default function SignInForm() {
 	return (
 		<Card className="w-[350px]">
 			<CardHeader>
-				<CardTitle>Кіру</CardTitle>
+				<CardTitle>Ғұбайдоллатану</CardTitle>
 				<CardDescription>Аккаунтыңызға кіру үшін электронды пошта мен құпиясөзді енгізіңіз.</CardDescription>
 			</CardHeader>
 			<CardContent>
