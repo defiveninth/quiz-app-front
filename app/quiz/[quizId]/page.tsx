@@ -7,14 +7,16 @@ import useGetQuizById from '@/actions/quiz/get-quiz'
 import Header from '@/components/header/student'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import Link from 'next/link'
+import urlCreator from '@/lib/url-creator'
 
 export default function QuizPage() {
 	const { quizId }: { quizId: string } = useParams()
 	const { error: getQuizError, isLoading: getQuizLoading, quiz, Lesson } = useGetQuizById(quizId)
 	const { createAttempt, error: attemptError, isLoading: attemptLoading, attemptId } = useCreateAttempt()
 	const router = useRouter()
+	const [files, setFiles] = useState<string[]>([])
 
 	const handleStartQuiz = async () => {
 		await createAttempt(quizId)
@@ -25,6 +27,19 @@ export default function QuizPage() {
 			router.push(`/quiz/${attemptId}/attempt`)
 		}
 	}, [attemptId, attemptLoading, router])
+
+	useEffect(() => {
+		if (Lesson) {
+			fetch(urlCreator(`lesson/${Lesson.id}/files`))
+				.then((response) => response.json())
+				.then((data) => {
+					setFiles(data.files || [])
+				})
+				.catch((error) => {
+					console.error('Error fetching lesson files:', error)
+				})
+		}
+	}, [Lesson])
 
 	if (getQuizError) {
 		router.push('/')
@@ -47,6 +62,24 @@ export default function QuizPage() {
 						<div className='flex flex-col gap-2 max-w-screen-lg mx-auto'>
 							<h2 className='text-3xl font-bold mb-1'>Сабақтың тақырыбы: {Lesson.title}</h2>
 							<p className='text-lg mb-4 ml-2'>{Lesson.description}</p>
+							{files.length > 0 && (
+								<div className="mb-4">
+									<h3 className="text-xl font-bold mb-2">Lesson Files</h3>
+									<ul className="list-disc pl-5">
+										{files.map((file, index) => (
+											<li key={index}>
+												<a
+													href={`https://abdu.myapi.kz${file}`}
+													className="text-blue-500 hover:underline"
+													download
+												>
+													Download {file.split('/').pop()}
+												</a>
+											</li>
+										))}
+									</ul>
+								</div>
+							)}
 						</div>
 					)
 				}
