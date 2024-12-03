@@ -24,7 +24,7 @@ export default function Index() {
 
         <Tabs defaultValue="all-quizzes" className="max-w-lg w-full mx-auto">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="all-quizzes">Барлық тесттер</TabsTrigger>
+            <TabsTrigger value="all-quizzes">Барлық сабактар</TabsTrigger>
             <TabsTrigger value="history">Тарих</TabsTrigger>
           </TabsList>
           <TabsContent value="history">
@@ -61,7 +61,7 @@ export default function Index() {
             )}
           </TabsContent>
           <TabsContent value="all-quizzes">
-            <h2 className='font-medium text-xl mb-5'>Барлық тесттер:</h2>
+            <h2 className='font-medium text-xl mb-5'>Барлық сабактар:</h2>
             {isLoadingQuizzes ? (
               <p>Жүктелуде...</p>
             ) : quizzesError ? (
@@ -78,7 +78,7 @@ export default function Index() {
                       </p>
                       <div className="mt-4">
                         <Link href={`/quiz/${quiz.id}`} passHref>
-                          <Button>Тестті бастау</Button>
+                          <Button>Сабакты бастау</Button>
                         </Link>
                       </div>
                     </div>

@@ -49,6 +49,17 @@ export default function QuizPage() {
 		return <div>No quiz found</div>
 	}
 
+	const convertToEmbedUrl = (url: string) => {
+		const videoIdMatch = url.match(/(?:youtu\.be\/|youtube\.com\/(?:[^\/\n\s]+\/\S+|(?:[^\/\n\s]+)?\?v=|(?:[^\/\n\s]+)?\/[^\/\n\s]+))([^?&\/\n\s]+)/)
+		if (videoIdMatch) {
+			const videoId = videoIdMatch[1]
+			const params = url.split('/')[3]
+			console.log(`https://www.youtube.com/embed/${videoId}${params}`)
+			return `https://www.youtube.com/embed/${params}`
+		}
+		return url
+	}
+
 	return (
 		<div className="w-full min-h-screen">
 			<div className="container mx-auto px-5 pt-5">
@@ -64,7 +75,7 @@ export default function QuizPage() {
 							<p className='text-lg mb-4 ml-2'>{Lesson.description}</p>
 							{files.length > 0 && (
 								<div className="mb-4">
-									<h3 className="text-xl font-bold mb-2">Lesson Files</h3>
+									<h3 className="text-xl font-bold mb-2">Сабақ Файлдары</h3>
 									<ul className="list-disc pl-5">
 										{files.map((file, index) => (
 											<li key={index}>
@@ -73,13 +84,18 @@ export default function QuizPage() {
 													className="text-blue-500 hover:underline"
 													download
 												>
-													Download {file.split('/').pop()}
+													Жүктеу: {file.split('/').pop()}
 												</a>
 											</li>
 										))}
 									</ul>
 								</div>
 							)}
+							{
+								Lesson.ytVideoUrl && <>
+									<iframe className='w-full  aspect-video' src={convertToEmbedUrl(Lesson.ytVideoUrl)} title="YouTube video player" frameBorder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerPolicy="strict-origin-when-cross-origin" allowFullScreen></iframe>
+								</>
+							}
 						</div>
 					)
 				}

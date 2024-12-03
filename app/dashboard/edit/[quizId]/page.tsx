@@ -180,6 +180,7 @@ export default function EditQuiz() {
 					id: newLesson?.id,
 					title: newLesson?.title,
 					description: newLesson?.description,
+					ytVideoUrl: newLesson?.ytVideoUrl
 				}),
 			})
 
@@ -215,7 +216,7 @@ export default function EditQuiz() {
 						) : error ? (
 							<div className="text-red-500">{error}</div>
 						) : results.length === 0 ? (
-							<div>No results available for this quiz.</div>
+							<div>Бұл куизды әлі ешкім тапсырмады.</div>
 						) : (
 							<div>
 								{results.map((result, index) => (
@@ -235,7 +236,7 @@ export default function EditQuiz() {
 					</TabsContent>
 
 					<TabsContent value="lesson">
-						<Card className="mt-8 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black">
+						<Card className="mt-8 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black pb-5">
 							<CardHeader className='px-0'>
 								<CardTitle>Edit Lesson</CardTitle>
 								<CardDescription>Update the lesson information associated with this quiz.</CardDescription>
@@ -269,7 +270,21 @@ export default function EditQuiz() {
 										onChange={handleFileChange}
 									/>
 								</div>
-								<a href="download:C:\\Users\\joncl\\Documents\\shadcn-learning\\back-end\\dist\\lesson-files\\cm47gtjlp0027kikz1enzevlt.pptx">122</a>
+								<div>
+									<Label htmlFor="file">Видео(youtube ссылка)</Label>
+									<Input
+										id="ytVideoUrl"
+										name="ytVideoUrl"
+										value={newLesson?.ytVideoUrl ?? ''}
+										onChange={handleLessonChange}
+										placeholder="Enter youtube video URL"
+									/>
+								</div>
+								<div className='flex justify-end'>
+									<Button>
+										Сақтау
+									</Button>
+								</div>
 							</form>
 						</Card>
 					</TabsContent>

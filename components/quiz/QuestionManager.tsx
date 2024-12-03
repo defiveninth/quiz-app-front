@@ -80,7 +80,7 @@ const QuestionManager: React.FC<QuestionManagerProps> = ({ quizId, initialQuesti
 				<div key={question.id} className="p-4 border rounded-lg space-y-4">
 					<div className="flex items-center justify-between">
 						<Label htmlFor={`question-${qIndex}`} className="text-lg font-semibold">
-							Question {qIndex + 1}
+							Сұрақ {qIndex + 1}
 						</Label>
 						<Button
 							variant="ghost"
@@ -124,12 +124,12 @@ const QuestionManager: React.FC<QuestionManagerProps> = ({ quizId, initialQuesti
 						))}
 					</div>
 					<Button onClick={() => addOption(qIndex)} variant="outline" size="sm">
-						Add Option
+						вариант қосу
 					</Button>
 				</div>
 			))}
 			<Button onClick={addQuestion} className="w-full">
-				Add Question
+				Сұрақ қосу
 			</Button>
 		</div>
 	)

@@ -18,6 +18,7 @@ export type LessonType = {
 	active: boolean
 	createdAt: string
 	updatedAt: string
+	ytVideoUrl: string
 }
 
 interface UseGetQuizByIdResult {
