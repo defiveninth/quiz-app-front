@@ -99,7 +99,6 @@ export default function AttemptPage() {
 				<Header />
 				<Card className="shadow-none sm:px-10 max-w-screen-lg mx-auto border-0 pb-5 rounded-none border-b-2 border-black mt-10 dark:border-white">
 					<h2 className="text-2xl font-bold mb-4">{attemptData.quiz.title}</h2>
-					<p className="mb-6">{attemptData.quiz.description}</p>
 
 					<h3 className="text-xl font-semibold mb-2">{currentQuestion.text}</h3>
 					<div className="mt-4">

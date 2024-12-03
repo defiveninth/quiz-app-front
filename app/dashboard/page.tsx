@@ -55,7 +55,7 @@ export default function DashboardPage() {
 					<Search className="absolute left-2 top-1/2 transform -translate-y-1/2 text-gray-400" />
 					<Input
 						type="text"
-						placeholder="Сауалнамаларды іздеу..."
+						placeholder="Сабақтарды іздеу..."
 						className="pl-10"
 						value={searchTerm}
 						onChange={(e) => setSearchTerm(e.target.value)}
@@ -94,7 +94,7 @@ export default function DashboardPage() {
 							</>
 						) : (
 							<>
-								<p className="text-center text-gray-600 mt-10">Сауалнамалар табылмады.</p>
+								<p className="text-center text-gray-600 mt-10">Сабақтар табылмады.</p>
 							</>
 						)}
 					</div>

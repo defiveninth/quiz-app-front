@@ -124,7 +124,7 @@ const QuestionManager: React.FC<QuestionManagerProps> = ({ quizId, initialQuesti
 						))}
 					</div>
 					<Button onClick={() => addOption(qIndex)} variant="outline" size="sm">
-						вариант қосу
+						Вариант қосу
 					</Button>
 				</div>
 			))}

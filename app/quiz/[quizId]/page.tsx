@@ -106,10 +106,6 @@ export default function QuizPage() {
 						<Loader className='animate-spin' />
 					</div> : (
 						<>
-							<h2 className='text-3xl font-bold mb-1'>Тақырып:</h2>
-							<h2 className='text-2xl font-bold mb-4 ml-2'>{quiz!.title}</h2>
-
-							{quiz!.description && <p className='text-lg mb-4 ml-2'>{quiz!.description}</p>}
 
 							<form className='flex justify-end' onSubmit={(e) => {
 								e.preventDefault()

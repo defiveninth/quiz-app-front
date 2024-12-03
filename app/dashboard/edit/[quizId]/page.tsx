@@ -137,7 +137,7 @@ export default function EditQuiz() {
 
 	useEffect(() => {
 		if (success) {
-			toast({ title: 'Сауалнама сәтті жаңартылды', variant: 'default' })
+			toast({ title: 'Сабақ сәтті жаңартылды', variant: 'default' })
 		}
 	}, [success, toast, router])
 
@@ -222,12 +222,12 @@ export default function EditQuiz() {
 								{results.map((result, index) => (
 									<Card key={index} className="my-4 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black">
 										<CardHeader>
-											<CardTitle>Result for {result.studentName}</CardTitle>
+											<CardTitle>Оқушы: {result.studentName}</CardTitle>
 											<CardDescription>Email: {result.email}</CardDescription>
 										</CardHeader>
 										<div className="p-4">
-											<p><strong>Score:</strong> {result.score} / {result.totalQuestions}</p>
-											<p><strong>Submitted At:</strong> {new Date(result.submittedAt).toLocaleString()}</p>
+											<p><strong>Балл:</strong> {result.score} / {result.totalQuestions}</p>
+											<p><strong>Орындаған уақыт:</strong> {new Date(result.submittedAt).toLocaleString()}</p>
 										</div>
 									</Card>
 								))}
@@ -238,12 +238,12 @@ export default function EditQuiz() {
 					<TabsContent value="lesson">
 						<Card className="mt-8 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black pb-5">
 							<CardHeader className='px-0'>
-								<CardTitle>Edit Lesson</CardTitle>
-								<CardDescription>Update the lesson information associated with this quiz.</CardDescription>
+								<CardTitle>Сабақты өңдеу</CardTitle>
+								<CardDescription>Осы викторинаға қатысты сабақ ақпаратын жаңартыңыз.</CardDescription>
 							</CardHeader>
 							<form onSubmit={handleLessonSubmit} className="space-y-4">
 								<div>
-									<Label htmlFor="title">Title</Label>
+									<Label htmlFor="title">Тақырып</Label>
 									<Input
 										id="title"
 										name="title"
@@ -253,7 +253,7 @@ export default function EditQuiz() {
 									/>
 								</div>
 								<div>
-									<Label htmlFor="description">Description</Label>
+									<Label htmlFor="description">Сипаттама</Label>
 									<Textarea
 										id="description"
 										name="description"
@@ -263,7 +263,7 @@ export default function EditQuiz() {
 									/>
 								</div>
 								<div>
-									<Label htmlFor="file">File (PPTX)</Label>
+									<Label htmlFor="file">Файл (PPTX)</Label>
 									<Input
 										type="file"
 										accept="application/vnd.openxmlformats-officedocument.presentationml.presentation"
@@ -292,8 +292,8 @@ export default function EditQuiz() {
 					<TabsContent value="quiz-info">
 						<Card className="mt-8 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black">
 							<CardHeader className='px-0'>
-								<CardTitle>Сауалнаманы өңдеу</CardTitle>
-								<CardDescription>Сауалнаманың атауы мен сипаттамасын жаңартыңыз.</CardDescription>
+								<CardTitle>Сабақты өңдеу</CardTitle>
+								<CardDescription>Сабақтың атауы мен сипаттамасын жаңартыңыз.</CardDescription>
 							</CardHeader>
 
 							{isLoading ? (

@@ -31,14 +31,14 @@ export function RemoveQuizDialog({ quizId, quizTitle, onQuizRemoved }: RemoveQui
 		if (result.success) {
 			toast({
 				title: "Сәтті аяқталды",
-				description: "Сауалнама сәтті жойылды.",
+				description: "Сабақ сәтті жойылды.",
 			})
 			onQuizRemoved()
 			setOpen(false)
 		} else {
 			toast({
 				title: "Қате",
-				description: error || "Сауалнаманы жою сәтсіз аяқталды. Қайталап көріңіз.",
+				description: error || "Сабақты жою сәтсіз аяқталды. Қайталап көріңіз.",
 				variant: "destructive",
 			})
 		}
@@ -47,13 +47,13 @@ export function RemoveQuizDialog({ quizId, quizTitle, onQuizRemoved }: RemoveQui
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
-				<Button variant="destructive" size={'sm'}>Сауалнаманы жою</Button>
+				<Button variant="destructive" size={'sm'}>Сабақты жою</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Сауалнаманы жою</DialogTitle>
+					<DialogTitle>Сабақты жою</DialogTitle>
 					<DialogDescription>
-						Сіз "{quizTitle}" сауалнамасын жоюға сенімдісіз бе? Бұл әрекет қайтымсыз болады.
+						Сіз "{quizTitle}" Сабағын жоюға сенімдісіз бе? Бұл әрекет қайтымсыз болады.
 					</DialogDescription>
 				</DialogHeader>
 				<DialogFooter>

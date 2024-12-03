@@ -73,9 +73,6 @@ export default function Index() {
                     <div key={quiz.id} className="border-pink-500 border shadow-md rounded-lg p-4">
                       <h3 className="text-xl font-semibold">{quiz.title}</h3>
                       <p className="text-sm text-gray-500">{quiz.description}</p>
-                      <p className="text-sm text-gray-400">
-                        Жасалған күні: {new Date(quiz.createdAt).toLocaleDateString()}
-                      </p>
                       <div className="mt-4">
                         <Link href={`/quiz/${quiz.id}`} passHref>
                           <Button>Сабакты бастау</Button>

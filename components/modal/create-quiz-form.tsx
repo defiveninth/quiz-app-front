@@ -43,14 +43,14 @@ export function CreateQuizForm() {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogTrigger asChild>
 				<Button>
-					<PlusCircle className="mr-2 h-4 w-4" /> Жаңа сауалнама құру
+					<PlusCircle className="mr-2 h-4 w-4" /> Жаңа сабақ құру
 				</Button>
 			</DialogTrigger>
 			<DialogContent className="sm:max-w-[425px]">
 				<DialogHeader>
-					<DialogTitle>Жаңа сауалнама құру</DialogTitle>
+					<DialogTitle>Жаңа сабақ құру</DialogTitle>
 					<DialogDescription>
-						Жаңа сауалнаманың мәліметтерін толтырыңыз. Аяқтаған соң "Сақтау" батырмасын басыңыз.
+						Жаңа сабақ мәліметтерін толтырыңыз. Аяқтаған соң "Сақтау" батырмасын басыңыз.
 					</DialogDescription>
 				</DialogHeader>
 				<form onSubmit={handleSubmit}>
@@ -80,7 +80,7 @@ export function CreateQuizForm() {
 						</div>
 					</div>
 					{error && <p className="text-red-500">{error}</p>}
-					{success && <p className="text-green-500">Сауалнама сәтті құрылды!</p>}
+					{success && <p className="text-green-500">Сабақ сәтті құрылды!</p>}
 					<DialogFooter>
 						<Button type="submit" disabled={isLoading} className='w-32'>
 							{isLoading ? <Loader className='animate-spin' /> : <span>Құру</span>}
