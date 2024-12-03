@@ -48,7 +48,7 @@ export default function Header() {
 	}, [])
 
 	useEffect(() => {
-		if (role === 'TEACHER') {
+		if (role === 'STUDENT') {
 			router.replace('/dashboard')
 		}
 	}, [role])
@@ -62,7 +62,7 @@ export default function Header() {
 	return (
 		<>
 			<div className="flex justify-between items-center mb-6">
-				<Link href={'/'} className="text-3xl font-bold">Сауалнама Тақтасы</Link>
+				<Link href={'/'} className="text-3xl font-bold">Жұмыс алаңы</Link>
 				<Button onClick={() => setIsMobileMenuOpen(!mobileMenuOpen)} className='sm:hidden'>
 					{mobileMenuOpen ? <X /> : <Menu />}
 				</Button>
@@ -77,7 +77,6 @@ export default function Header() {
 					</div>
 				</div>
 			</div>
-
 
 			{
 				mobileMenuOpen && (

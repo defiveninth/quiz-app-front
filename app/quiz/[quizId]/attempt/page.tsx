@@ -101,7 +101,6 @@ export default function AttemptPage() {
 					<h2 className="text-2xl font-bold mb-4">{attemptData.quiz.title}</h2>
 					<p className="mb-6">{attemptData.quiz.description}</p>
 
-					{/* Question and options */}
 					<h3 className="text-xl font-semibold mb-2">{currentQuestion.text}</h3>
 					<div className="mt-4">
 						{currentQuestion.options.map((option) => (
@@ -119,7 +118,6 @@ export default function AttemptPage() {
 						))}
 					</div>
 
-					{/* Navigation buttons */}
 					<div className="flex justify-between mt-6">
 						<Button
 							disabled={currentQuestionIndex === 0}

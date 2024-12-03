@@ -20,13 +20,13 @@ const useQuizResults = (quizId: string) => {
 				})
 
 				if (!response.ok) {
-					throw new Error('Failed to fetch quiz results')
+					throw new Error(`Failed to fetch quiz results: ${response.status} ${response.statusText}`)
 				}
 
 				const data = await response.json()
 				setResults(data.score)
 			} catch (err) {
-				setError('Error fetching results')
+				setError(`Error fetching results`)
 			} finally {
 				setIsLoading(false)
 			}
@@ -39,3 +39,4 @@ const useQuizResults = (quizId: string) => {
 }
 
 export default useQuizResults
+

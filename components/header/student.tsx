@@ -63,7 +63,7 @@ export default function Header() {
 		<>
 			<div className="flex justify-between items-center mb-6">
 				<Link href="/" className="text-3xl font-bold">
-					Сауалнама Тақтасы
+					Жұмыс алаңы
 				</Link>
 				<Button onClick={() => setIsMobileMenuOpen(!mobileMenuOpen)} className="sm:hidden">
 					{mobileMenuOpen ? <X /> : <Menu />}

@@ -12,7 +12,7 @@ import Link from 'next/link'
 
 export default function QuizPage() {
 	const { quizId }: { quizId: string } = useParams()
-	const { error: getQuizError, isLoading: getQuizLoading, quiz } = useGetQuizById(quizId)
+	const { error: getQuizError, isLoading: getQuizLoading, quiz, Lesson } = useGetQuizById(quizId)
 	const { createAttempt, error: attemptError, isLoading: attemptLoading, attemptId } = useCreateAttempt()
 	const router = useRouter()
 
@@ -38,11 +38,20 @@ export default function QuizPage() {
 		<div className="w-full min-h-screen">
 			<div className="container mx-auto px-5 pt-5">
 				<Header />
+				<Link href={'/'} className='mb-2 flex items-center gap-1'>
+					<ChevronLeft />
+					<span>артқа қайту</span>
+				</Link>
+				{
+					Lesson && (
+						<div className='flex flex-col gap-2 max-w-screen-lg mx-auto'>
+							<h2 className='text-3xl font-bold mb-1'>Сабақтың тақырыбы: {Lesson.title}</h2>
+							<p className='text-lg mb-4 ml-2'>{Lesson.description}</p>
+						</div>
+					)
+				}
 				<Card className='shadow-none sm:px-10 max-w-screen-lg mx-auto border-0 pb-5 rounded-none border-b-2 border-black mt-10 dark:border-white'>
-					<Link href={'/'} className='mb-2 flex items-center gap-1'>
-						<ChevronLeft />
-						<span>артқа қайту</span>
-					</Link>
+
 					{getQuizLoading ? <div className='flex items-center gap-2'>
 						<span className='text-lg font-medium'>Жүктелуде...</span>
 						<Loader className='animate-spin' />
@@ -58,7 +67,7 @@ export default function QuizPage() {
 								handleStartQuiz()
 							}}>
 								<Button className='px-2'>
-									{attemptLoading ? <Loader className='animate-spin' /> : <span>Сұрақтарға жауап беру</span>}
+									{attemptLoading ? <Loader className='animate-spin' /> : <span>Куизды Бастау</span>}
 								</Button>
 							</form>
 						</>

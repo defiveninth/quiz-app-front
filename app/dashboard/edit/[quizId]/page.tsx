@@ -1,12 +1,8 @@
-"use client"
+'use client'
+
 
 import { useCallback, useEffect, useState } from 'react'
-import getQuestionsByQuizId, { Question } from '@/actions/question/get-questions-by-quiz-id'
-import { createQuestion, updateQuestion } from '@/actions/question/manage-questions'
-import useEditQuiz from '@/actions/quiz/edit-quiz'
-import useGetQuizById, { LessonType } from '@/actions/quiz/get-quiz'
 import Header from '@/components/header/teacher'
-import QuestionManager from '@/components/quiz/QuestionManager'
 import QuizEditForm from '@/components/quiz/QuizEditForm'
 import { Button } from '@/components/ui/button'
 import { Card, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,14 +10,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { useToast } from '@/hooks/use-toast'
 import { Loader } from 'lucide-react'
 import { redirect, useParams, useRouter } from 'next/navigation'
-import useQuizResults from '@/actions/quiz/quiz-results'
 import { Label } from '@/components/ui/label'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
 import urlCreator from '@/lib/url-creator'
 
+import useGetQuizById, { LessonType } from '@/actions/quiz/get-quiz'
+import QuestionManager from '@/components/quiz/QuestionManager'
+import { createQuestion, updateQuestion } from '@/actions/question/manage-questions'
+import useEditQuiz from '@/actions/quiz/edit-quiz'
+import useQuizResults from '@/actions/quiz/quiz-results'
+import getQuestionsByQuizId, { Question } from '@/actions/question/get-questions-by-quiz-id'
+
 export default function EditQuiz() {
 	const { quizId }: { quizId: string } = useParams()
+	const [file, setFile] = useState<any>(null)
 	const { isLoading, error, quiz, Lesson } = useGetQuizById(quizId as string || '')
 	const { isLoading: isLoadingQuestions, error: questionsError, questions: fetchedQuestions, fetchQuestions: fetchQuestionsBase } = getQuestionsByQuizId()
 
@@ -36,6 +39,52 @@ export default function EditQuiz() {
 	const router = useRouter()
 
 	const { isSaving: isSavingUpdate, error: editError, success, editQuiz } = useEditQuiz()
+
+	const handleFileChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+		const selectedFile = e.target.files?.[0]
+
+		if (selectedFile) {
+			if (selectedFile.type !== 'application/vnd.openxmlformats-officedocument.presentationml.presentation') {
+				alert('Only PowerPoint files (.pptx) are allowed!')
+				setFile(null)
+			} else {
+				setFile(selectedFile as File)
+				await handleSubmitFile(selectedFile)
+			}
+		} else {
+			alert('Please select a file.')
+		}
+	}
+
+
+	const handleSubmitFile = async (selectedFile: File) => {
+		if (!selectedFile) {
+			alert('Please provide a valid PowerPoint file.')
+			return
+		}
+
+		const formData = new FormData()
+		formData.append('file', selectedFile)
+		formData.append('lessonId', Lesson?.id ?? '')
+
+		try {
+			const response = await fetch(urlCreator('lesson/add-file'), {
+				method: 'POST',
+				body: formData,
+			})
+
+			if (!response.ok) {
+				throw new Error('File upload failed')
+			}
+
+			const result = await response.json()
+			alert('File uploaded successfully')
+			console.log(result)
+		} catch (error) {
+			alert('Error uploading file: ')
+		}
+	}
+
 
 	const fetchQuestions = useCallback((id: string) => {
 		fetchQuestionsBase(id)
@@ -138,9 +187,9 @@ export default function EditQuiz() {
 				throw new Error('Failed to update lesson')
 			}
 
-			toast({ title: 'Сабақ сәтті жаңартылды', variant: 'default' })
+			toast({ title: 'Lesson updated successfully', variant: 'default' })
 		} catch (error) {
-			toast({ title: 'Сабақты жаңарту сәтсіз аяқталды', variant: 'destructive' })
+			toast({ title: 'Failed to update lesson', variant: 'destructive' })
 		} finally {
 			setIsSaving(false)
 		}
@@ -160,24 +209,24 @@ export default function EditQuiz() {
 					<TabsContent value="quiz-questions">
 						{resultLoading ? (
 							<div className="flex items-center gap-2">
-								<span className="text-lg font-medium">Жүктелуде...</span>
+								<span className="text-lg font-medium">Loading quiz results...</span>
 								<Loader className="animate-spin" />
 							</div>
 						) : error ? (
 							<div className="text-red-500">{error}</div>
 						) : results.length === 0 ? (
-							<div>Бұл сауалнамаға ешқандай нәтиже жоқ.</div>
+							<div>No results available for this quiz.</div>
 						) : (
 							<div>
 								{results.map((result, index) => (
 									<Card key={index} className="my-4 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black">
 										<CardHeader>
-											<CardTitle>{result.studentName} үшін нәтиже</CardTitle>
+											<CardTitle>Result for {result.studentName}</CardTitle>
 											<CardDescription>Email: {result.email}</CardDescription>
 										</CardHeader>
 										<div className="p-4">
-											<p><strong>Балл:</strong> {result.score} / {result.totalQuestions}</p>
-											<p><strong>Тапсыру уақыты:</strong> {new Date(result.submittedAt).toLocaleString()}</p>
+											<p><strong>Score:</strong> {result.score} / {result.totalQuestions}</p>
+											<p><strong>Submitted At:</strong> {new Date(result.submittedAt).toLocaleString()}</p>
 										</div>
 									</Card>
 								))}
@@ -188,31 +237,39 @@ export default function EditQuiz() {
 					<TabsContent value="lesson">
 						<Card className="mt-8 max-w-2xl mx-auto shadow-none border-0 rounded-none border-b-2 dark:border-white border-black">
 							<CardHeader className='px-0'>
-								<CardTitle>Сабақты өңдеу</CardTitle>
-								<CardDescription>Сауалнамамен байланысты сабақ туралы ақпаратты жаңартыңыз.</CardDescription>
+								<CardTitle>Edit Lesson</CardTitle>
+								<CardDescription>Update the lesson information associated with this quiz.</CardDescription>
 							</CardHeader>
 							<form onSubmit={handleLessonSubmit} className="space-y-4">
 								<div>
-									<Label htmlFor="title">Атауы</Label>
+									<Label htmlFor="title">Title</Label>
 									<Input
 										id="title"
 										name="title"
 										value={newLesson?.title}
 										onChange={handleLessonChange}
-										placeholder="Сабақтың атауын енгізіңіз"
+										placeholder="Enter lesson title"
 									/>
 								</div>
 								<div>
-									<Label htmlFor="description">Сипаттамасы</Label>
+									<Label htmlFor="description">Description</Label>
 									<Textarea
 										id="description"
 										name="description"
 										value={newLesson?.description}
 										onChange={handleLessonChange}
-										placeholder="Сабақтың сипаттамасын енгізіңіз"
+										placeholder="Enter lesson description"
 									/>
 								</div>
-								<Button type="submit">Сабақты жаңарту</Button>
+								<div>
+									<Label htmlFor="file">File (PPTX)</Label>
+									<Input
+										type="file"
+										accept="application/vnd.openxmlformats-officedocument.presentationml.presentation"
+										onChange={handleFileChange}
+									/>
+								</div>
+								<a href="download:C:\\Users\\joncl\\Documents\\shadcn-learning\\back-end\\dist\\lesson-files\\cm47gtjlp0027kikz1enzevlt.pptx">122</a>
 							</form>
 						</Card>
 					</TabsContent>
